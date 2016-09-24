@@ -6,7 +6,7 @@ import java.util.Stack;
 /**
  * @project LeetCode
  * @package 
- * @filename Main.java
+ * @filename Main20.java
  */
 /**
  * @author xsh
@@ -27,7 +27,7 @@ public class Main01 {
 			for(int i=0;i<a;i++){
 				data.add(scanner.nextInt());
 			}
-			new Main().init(data);
+			new Main20().init(data);
 			data.clear();
 		}*/
 		List<Integer> data = new ArrayList<>();

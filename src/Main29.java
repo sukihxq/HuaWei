@@ -1,112 +1,92 @@
-
 import java.util.Scanner;
 import java.util.Stack;
-
-/**
- * @project HuaWei
- * @package 
- * @filename Main15.java
- */
-/**
- * @author xsh
- * @Email xshqhua@foxmail.com
- * @date 2016年8月21日 下午8:00:08
- */
-public class Main15 {
+public class Main29 {
 	Stack<Point> stack = new Stack<>();
 	int [][]maze;
 	boolean [][]p;
 	/**
-	 * 样例输入
-9 8
-0	0	1	0	0	0	1	0
-0	0	1	0	0	0	1	0
-0	0	1	0	1	1	0	1
-0	1	1	1	0	0	1	0
-0	0	0	1	0	0	0	0
-0	1	0	0	0	1	0	1
-0	1	1	1	1	0	0	1
-1	1	0	0	0	1	0	1
-1	1	0	0	0	0	0	0
-1 1
-
-	 */
-	
-	
-	/**
-	 * @param args
+4 4 10
+1 0 0 1
+1 1 0 1
+0 1 1 1
+0 0 1 1
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Main15().init();
+		new Main29().init();
 	}
 	
 	public void init(){
 		int row = 0;
 		int col = 0;
+		int power = 0;
 		int [][]maze;
 		Scanner scanner = new Scanner(System.in);
 		while(scanner.hasNext()){
 			String []numStr = scanner.nextLine().split(" ");
 			row = Integer.parseInt(numStr[0]);
 			col = Integer.parseInt(numStr[1]);
-			maze = new int[row][col];
+			power = Integer.parseInt(numStr[2]);
+			maze = new int[row][];
 			for(int i=0;i<row;i++){
-				maze[i] = toInt(scanner.nextLine(),"\t");
+				maze[i] = toInt(scanner.nextLine()," ");
 			}
-			int []starts = toInt(scanner.nextLine(), " ");
-			fun(maze,toPoint(starts));
-			/*System.out.println("migong");
-			print(maze);*/
+			int []starts = {0,0};
+			if(row>=3&&row>=3&&row<=10&&row<=10&&power<=100&&power>=1)
+				fun(maze,toPoint(starts),power);
 		}
+		scanner.close();
 	}
 	
-	public void fun(int [][]nums,Point point){
+	public void fun(int [][]nums,Point point,int power){
 		int row = nums.length;
 		int col = nums[0].length;
 		int [][]data = new int[row+2][col+2];
 		p = new boolean [row+2][col+2];
 		for(int i=0;i<row+2;i++){
 			for(int j=0;j<col+2;j++){
-				data[0][j] = 1;
-				data[row+1][j] = 1;
-				data[i][0] = 1;
-				data[i][col+1] = 1;
+				data[0][j] = 0;
+				data[row+1][j] = 0;
+				data[i][0] = 0;
+				data[i][col+1] = 0;
 				p[i][j] = false;
 			}
 		}
-		System.out.println("=================");
-		print(data);
 		for(int i=0;i<row;i++){
 			for(int j=0;j<col;j++){
 				data[i+1][j+1] = nums[i][j];
 			}
 		}
-		System.out.println("===================");
-		print(data);
-		System.out.println("===================");
-		
 		int i = point.row+1;
 		int j = point.col+1;
 		p[i][j] = true;
 		stack.push(new Point(i, j));
-		while(!stack.isEmpty()&&!((i==row)&&(j==col))){
-			if(data[i][j+1]==0&&!p[i][j+1]){
+		while(!stack.isEmpty()&&!((i==1)&&(j==col))){
+			if(data[i][j+1]==1&&!p[i][j+1]){
 				stack.push(new Point(i, j+1));
 				p[i][j+1] = true;
 				j++;
-			}else if(data[i+1][j]==0&&!p[i+1][j]){
+				power--;
+				if(!check(power))
+					return ;
+			}else if(data[i+1][j]==1&&!p[i+1][j]){
 				p[i+1][j] = true;
 				stack.push(new Point(i+1, j));
 				i++;
-			}else if(data[i][j-1]==0&&!p[i][j-1]){
+				
+			}else if(data[i][j-1]==1&&!p[i][j-1]){
 				p[i][j-1] = true;
 				stack.push(new Point(i, j-1));
 				j--;
-			}else if(data[i-1][j]==0&&!p[i-1][j]){
+				power--;
+				if(!check(power))
+					return ;
+			}else if(data[i-1][j]==1&&!p[i-1][j]){
 				p[i-1][j] = true;
 				stack.push(new Point(i-1, j));
 				i--;
+				power-=3;
+				if(!check(power))
+					return ;
 			}else {
 				stack.pop();
 				if(stack.isEmpty())
@@ -124,31 +104,18 @@ public class Main15 {
 		}
 		
 		if(path.isEmpty()){
-			System.out.println("no path");
+			System.out.println("Can not escape!");
 			return ;
 		}
-		
-		String [][] res = new String[row+1][col+1];
-		
-		for(int i1=0;i1<row;i1++){
-			for(int j1=0;j1<col;j1++){
-				res[i1][j1] = nums[i1][j1]+"";
-			}
-		}
+		StringBuffer sb = new StringBuffer();
 		while(!path.isEmpty()){
-			res[path.peek().row-1][path.peek().col-1] = "*";
+			sb.append("["+(path.peek().row-1)+","+(path.peek().col-1)+"],");
 			path.pop();
 		}
 		
-		System.out.println("========ok=========");
-		for(int i1=0;i1<row;i1++){
-			for(int j1=0;j1<col;j1++){
-				System.out.print(res[i1][j1]+" ");
-			}
-			System.out.println();
-		}
 		
-		
+		String result = sb.toString();
+		System.out.println(result.substring(0,result.length()-1));
 	}
 	public int[] toInt(String strNums,String split){
 		String []numStr = strNums.split(split);
@@ -159,19 +126,18 @@ public class Main15 {
 		}
 		return nums;
 	}
-	public void print(int [][]nums){
-		for(int i=0;i<nums.length;i++){
-			for(int j=0;j<nums[i].length;j++){
-				System.out.print(nums[i][j]+" ");
-			}
-			System.out.println();
-		}
-	}
 	public Point toPoint(int [] nums){
 		return new Point(nums[0], nums[1]);
 	}
+	public boolean check(int power){
+		if(power>=0)
+			return true;
+		else{
+			System.out.println("Can not escape!");
+			return false;
+		}
+	}
 }
-/*
 class Point{
 	int col = 0;
 	int row = 0;
@@ -185,12 +151,11 @@ class Point{
 	}
 	public void setCol(int col) {
 		this.col = col;
+	}
 	public int getRow() {
 		return row;
 	}
 	public void setRow(int row) {
 		this.row = row;
 	}
-
-}*/
-//>>>>>>> branch 'develop' of https://github.com/xshqhua/HuaWei.git
+}

@@ -25,7 +25,7 @@ public class Main05 {
 		Scanner scanner = new Scanner(System.in);
 		while(scanner.hasNextLine()){
 			
-			String[]strs = scanner.nextLine().split(",");
+			String[]strs = scanner.nextLine().split(" ");
 			int [] data = new int[strs.length];
 			for(int i=0;i<strs.length;i++){
 				data[i] = Integer.parseInt(strs[i]);
@@ -51,20 +51,6 @@ public class Main05 {
 			
 		}
 		System.out.println(max+","+second);
-		/*int second1 = Integer.MIN_VALUE;
-		int second2 = Integer.MIN_VALUE;
-		for(int i = 1;i<data.length;i++){
-			if(data[i]>max){
-				second1 = max;
-				max = data[i];
-			}else {
-				if(data[i]<max&&data[i]<second1)
-					second2 = second1;
-				if(data[i]<max&&data[i]>second1)
-					second2 = data[i];
-			}
-		}
-		System.out.println(max+","+second2);*/
 	}
 
 }

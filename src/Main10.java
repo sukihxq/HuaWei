@@ -5,7 +5,7 @@ public class Main10 {
 		Scanner sc = new Scanner(System.in);
 		while(sc.hasNext()){
 			String []str = sc.nextLine().split(" ");
-			//new Main2().fun(str);
+			//new Main19().fun(str);
 			
 			int []data = new int[str.length];
 			for(int i=0;i<data.length;i++){
