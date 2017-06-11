@@ -12,7 +12,9 @@ public class Test01 {
 	public void init() {
 		for (int i = 0; i < 10; i++)
 			System.out.println(i);
-
+		
+		//test
+		// first branch
 	}
 	
 
