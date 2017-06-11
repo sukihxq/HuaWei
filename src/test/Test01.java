@@ -7,6 +7,18 @@ public class Test01 {
 		new Test01().init();
 		new Test01().init();
 		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
+		new Test01().init();
 	}
 
 	public void init() {
